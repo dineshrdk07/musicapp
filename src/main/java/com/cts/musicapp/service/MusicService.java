@@ -12,14 +12,5 @@ import org.springframework.stereotype.Service;
 public class MusicService {
     @Autowired
     private MusicProxy musicProxy;
-
-    private Album getTracks(){
-     return null;
-    }
-    public String getAuthToken(){
-        return musicProxy.getAuthorization();
-    }
-    public Track getTrack(){
-        return musicProxy.getTracks();
-    }
+    public Object searchMusic(String trackName){return  musicProxy.searchMusicTracks(trackName);}
 }

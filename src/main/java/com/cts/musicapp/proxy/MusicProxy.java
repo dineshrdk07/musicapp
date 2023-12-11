@@ -57,16 +57,13 @@ public class MusicProxy {
         AuthResponse authResponse = restTemplate.postForObject(authUri,request,AuthResponse.class);
         return authResponse.getAccess_token();
     }
-
-    public Track getTracks(){
+    public Object searchMusicTracks(String trackName){
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization","Bearer  "+getAuthorization());
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity request = new HttpEntity(headers);
-        ResponseEntity<Object> response =  restTemplate.exchange(musicUri+"/v1/tracks/{id}", HttpMethod.GET,request, Object.class,trackId);
-        Track track =  mapper.convertValue(response.getBody(), Track.class);
-        return track;
+        ResponseEntity<Object> response =  restTemplate.exchange(musicUri+"/v1/search?q={track}&type=track",HttpMethod.GET,request,Object.class,trackName);
+        return response.getBody();
 
     }
-
 }

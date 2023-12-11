@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -21,14 +22,9 @@ public class MusicAppController {
     @Autowired
     private MusicService musicService;
 
-    @GetMapping("/getTracks")
-     public ResponseEntity<Track> getTracks(){
-       Track response = musicService.getTrack();
-       return new ResponseEntity<>(response,HttpStatus.OK);
-    }
-    @GetMapping("/getAuth")
-    public ResponseEntity<String> getAuth(){
-        String token = musicService.getAuthToken();
-        return new ResponseEntity<>(token, HttpStatus.OK);
+    @GetMapping("/search/{trackName}")
+    public ResponseEntity<Object> getAuth(@PathVariable("trackName") String trackName){
+        Object res = musicService.searchMusic(trackName);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }
