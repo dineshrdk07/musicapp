@@ -12,5 +12,5 @@ public class AudioBooks {
     private Integer offset;
     private String previous;
     private Integer total;
-    private List<Items> items;
+    private List<SimpleAudioBook> items;
 }
