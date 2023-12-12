@@ -1,7 +1,10 @@
 package com.cts.musicapp.model;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class Episode {
     private String audio_preview_url;
     private String description;
