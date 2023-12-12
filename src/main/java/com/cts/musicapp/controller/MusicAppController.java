@@ -1,6 +1,7 @@
 package com.cts.musicapp.controller;
 
 import com.cts.musicapp.model.AuthResponse;
+import com.cts.musicapp.model.SearchResponse;
 import com.cts.musicapp.model.Track;
 import com.cts.musicapp.service.MusicService;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +23,9 @@ public class MusicAppController {
     @Autowired
     private MusicService musicService;
 
-    @GetMapping("/search/{trackName}")
-    public ResponseEntity<Object> getAuth(@PathVariable("trackName") String trackName){
-        Object res = musicService.searchMusic(trackName);
+    @GetMapping("/search/{trackName}/{limit}")
+    public ResponseEntity<SearchResponse> getAuth(@PathVariable("trackName") String trackName,@PathVariable("limit") String limit){
+        SearchResponse res = musicService.searchMusic(trackName,limit);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }

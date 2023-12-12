@@ -2,6 +2,7 @@ package com.cts.musicapp.service;
 
 import com.cts.musicapp.model.Album;
 import com.cts.musicapp.model.AuthResponse;
+import com.cts.musicapp.model.SearchResponse;
 import com.cts.musicapp.model.Track;
 import com.cts.musicapp.proxy.MusicProxy;
 import lombok.RequiredArgsConstructor;
@@ -12,5 +13,5 @@ import org.springframework.stereotype.Service;
 public class MusicService {
     @Autowired
     private MusicProxy musicProxy;
-    public Object searchMusic(String trackName){return  musicProxy.searchMusicTracks(trackName);}
+    public SearchResponse searchMusic(String trackName, String limit){return  musicProxy.searchMusicTracks(trackName,limit);}
 }

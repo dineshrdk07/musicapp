@@ -1,9 +1,6 @@
 package com.cts.musicapp.proxy;
 
-import com.cts.musicapp.model.Album;
-import com.cts.musicapp.model.AuthRequest;
-import com.cts.musicapp.model.AuthResponse;
-import com.cts.musicapp.model.Track;
+import com.cts.musicapp.model.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
@@ -40,9 +37,6 @@ public class MusicProxy {
     public String client_id;
     @Value("${musicapp.clientsecret}")
     public String client_secret;
-
-    @Value("${musicapp.track.kangaledho}")
-    public String trackId;
     @Autowired
     private ObjectMapper mapper;
 
@@ -57,13 +51,17 @@ public class MusicProxy {
         AuthResponse authResponse = restTemplate.postForObject(authUri,request,AuthResponse.class);
         return authResponse.getAccess_token();
     }
-    public Object searchMusicTracks(String trackName){
+    public SearchResponse searchMusicTracks(String trackName, String limit){
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization","Bearer  "+getAuthorization());
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity request = new HttpEntity(headers);
-        ResponseEntity<Object> response =  restTemplate.exchange(musicUri+"/v1/search?q={track}&type=track",HttpMethod.GET,request,Object.class,trackName);
-        return response.getBody();
+        Map<String, String> var = new HashMap<>();
+        var.put("track",trackName);
+        var.put("limit",limit);
+        ResponseEntity<Object> response =  restTemplate.exchange(musicUri+"/v1/search?q={track}&type=track&limit={limit}",HttpMethod.GET,request,Object.class,var);
+        SearchResponse result = mapper.convertValue(response.getBody(), SearchResponse.class);
+        return result;
 
     }
 }
