@@ -8,7 +8,7 @@ import java.util.List;
 public class SimpleAudioBook {
     private List<Authors> authors;
     private List<String> available_markets;
-    private List<CopyrightObject> copyrights;
+    private List<Copyrights> copyrights;
     private String description;
     private String html_description;
     private String edition;
