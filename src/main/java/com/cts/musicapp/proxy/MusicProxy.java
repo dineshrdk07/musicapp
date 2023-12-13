@@ -1,33 +1,24 @@
 package com.cts.musicapp.proxy;
 
+import com.cts.musicapp.mapper.MusicMapper;
 import com.cts.musicapp.model.*;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.http.*;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.function.EntityResponse;
 
-import java.lang.reflect.Type;
-import java.net.URI;
 import java.util.*;
 
 @Service
 @Configurable
 public class MusicProxy {
+    @Autowired
+    private MusicMapper musicMapper;
     private RestTemplate restTemplate = new RestTemplate();
     @Value("${musicapp.auth}")
     private String authUri;
@@ -51,7 +42,7 @@ public class MusicProxy {
         AuthResponse authResponse = restTemplate.postForObject(authUri,request,AuthResponse.class);
         return authResponse.getAccess_token();
     }
-    public SearchResponse searchMusicTracks(String trackName, String limit){
+    public TracksResult searchMusicTracks(String trackName, String limit){
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization","Bearer  "+getAuthorization());
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -61,7 +52,8 @@ public class MusicProxy {
         var.put("limit",limit);
         ResponseEntity<Object> response =  restTemplate.exchange(musicUri+"/v1/search?q={track}&type=track&limit={limit}",HttpMethod.GET,request,Object.class,var);
         SearchResponse result = mapper.convertValue(response.getBody(), SearchResponse.class);
-        return result;
+        TracksResult tr = musicMapper.mapToTrackResult(result);
+        return tr;
 
     }
 }

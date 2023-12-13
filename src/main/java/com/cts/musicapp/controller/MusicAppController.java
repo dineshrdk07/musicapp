@@ -1,8 +1,6 @@
 package com.cts.musicapp.controller;
 
-import com.cts.musicapp.model.AuthResponse;
-import com.cts.musicapp.model.SearchResponse;
-import com.cts.musicapp.model.Track;
+import com.cts.musicapp.model.*;
 import com.cts.musicapp.service.MusicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +22,8 @@ public class MusicAppController {
     private MusicService musicService;
 
     @GetMapping("/search/{trackName}/{limit}")
-    public ResponseEntity<SearchResponse> getAuth(@PathVariable("trackName") String trackName,@PathVariable("limit") String limit){
-        SearchResponse res = musicService.searchMusic(trackName,limit);
+    public ResponseEntity<TracksResult> getAuth(@PathVariable("trackName") String trackName, @PathVariable("limit") String limit){
+        TracksResult res = musicService.searchMusic(trackName,limit);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }
