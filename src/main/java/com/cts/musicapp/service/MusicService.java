@@ -11,4 +11,5 @@ public class MusicService {
     @Autowired
     private MusicProxy musicProxy;
     public TracksResult searchMusic(String trackName, String limit){return  musicProxy.searchMusicTracks(trackName,limit);}
+    public Object addToWishList(WishList wishList){return musicProxy.addToWishList(wishList);};
 }

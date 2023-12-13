@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/musicapp/v1")
 @Controller
@@ -22,8 +19,14 @@ public class MusicAppController {
     private MusicService musicService;
 
     @GetMapping("/search/{trackName}/{limit}")
-    public ResponseEntity<TracksResult> getAuth(@PathVariable("trackName") String trackName, @PathVariable("limit") String limit){
+    public ResponseEntity<TracksResult> getTrack(@PathVariable("trackName") String trackName, @PathVariable("limit") String limit){
         TracksResult res = musicService.searchMusic(trackName,limit);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PostMapping("/addtowishlist")
+    public ResponseEntity<Object> addToWishList(@RequestBody WishList wishList){
+         Object res = musicService.addToWishList(wishList);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }

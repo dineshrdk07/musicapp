@@ -28,6 +28,8 @@ public class MusicProxy {
     public String client_id;
     @Value("${musicapp.clientsecret}")
     public String client_secret;
+    @Value("${wishlist.baseuri}")
+    public String wishListUri;
     @Autowired
     private ObjectMapper mapper;
 
@@ -54,6 +56,12 @@ public class MusicProxy {
         SearchResponse result = mapper.convertValue(response.getBody(), SearchResponse.class);
         TracksResult tr = musicMapper.mapToTrackResult(result);
         return tr;
-
     }
+
+    public Object addToWishList(WishList wishList){
+        HttpEntity<WishList> request = new HttpEntity<>(wishList);
+        Object res = restTemplate.exchange(wishListUri+"/create",HttpMethod.POST,request,Object.class);
+        return res;
+    }
+
 }
