@@ -29,4 +29,14 @@ public class MusicAppController {
          Object res = musicService.addToWishList(wishList);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
+    @GetMapping("/wishlist/search/{id}")
+    public ResponseEntity<Object> getFromWishList(@PathVariable String id){
+        Object res = musicService.getFromWishList(id);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+    @DeleteMapping("/wishlist/delete/{id}")
+    public  ResponseEntity<String> deleteFromWishlist(@PathVariable String id){
+        String res = musicService.deleteFromWishList(id);
+        return  new ResponseEntity<>(res, HttpStatus.OK);
+    }
 }
