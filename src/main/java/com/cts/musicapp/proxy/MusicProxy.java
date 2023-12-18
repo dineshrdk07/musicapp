@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -19,6 +20,7 @@ import java.util.*;
 public class MusicProxy {
     @Autowired
     private MusicMapper musicMapper;
+    @LoadBalanced
     private RestTemplate restTemplate = new RestTemplate();
     @Value("${musicapp.auth}")
     private String authUri;
