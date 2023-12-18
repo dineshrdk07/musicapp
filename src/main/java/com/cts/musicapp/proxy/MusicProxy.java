@@ -66,4 +66,16 @@ public class MusicProxy {
         return res;
     }
 
+    public Object getFromWishlist(String id){
+        Object res = restTemplate.getForObject(wishListUri+"/search/{id}",Object.class,id);
+        return res;
+    }
+
+    public String deleteFromWishlist(String id){
+         restTemplate.delete(wishListUri+"/delete/{id}", id);
+         return "deleted";
+    }
+
+
+
 }
